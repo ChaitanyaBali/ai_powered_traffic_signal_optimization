@@ -32,23 +32,21 @@ if uploaded_file is not None:
 
     col1, col2 = st.columns([2,1])
 
-    # Detected image
+    # Show detected image
     with col1:
-        st.image(result, caption="Detected Vehicles", use_column_width=True)
+        st.image(result, caption="Detected Vehicles", use_container_width=True)
 
     # Traffic signal decision
     with col2:
 
-        st.subheader("Traffic Signal")
+        st.subheader("Traffic Signal Decision")
 
         if total <= 5:
             signal = "🔴 RED"
             time = 60
-
         elif total <= 15:
             signal = "🟡 YELLOW"
             time = 30
-
         else:
             signal = "🟢 GREEN"
             time = 10
