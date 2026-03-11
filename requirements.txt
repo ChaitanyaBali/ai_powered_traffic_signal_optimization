@@ -1,9 +1,9 @@
 streamlit
-opencv-python
+opencv-python-headless
 numpy
-pandas
-Pillow
+pillow
 ultralytics
-matplotlib
 torch
 torchvision
+matplotlib
+pandas
