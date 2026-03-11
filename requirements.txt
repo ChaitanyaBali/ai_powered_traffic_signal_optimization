@@ -5,3 +5,5 @@ pandas
 Pillow
 ultralytics
 matplotlib
+torch
+torchvision
