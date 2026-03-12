@@ -1,29 +1,38 @@
 import cv2
 from ultralytics import YOLO
 
-# Load YOLOv8 model (downloads automatically if not present)
+# Load YOLOv8 model
 model = YOLO("yolov8s.pt")
 
-# Vehicle classes from COCO dataset
-vehicle_classes = [2, 3, 5, 7]  
-# 2=car, 3=motorcycle, 5=bus, 7=truck
+def detect_vehicles(image):
 
-def detect_vehicles(img):
+    results = model(image)
 
-    results = model(img)[0]
+    vehicle_count = 0
 
-    total = 0
+    for r in results:
+        for box in r.boxes:
 
-    for box in results.boxes:
-
-        cls = int(box.cls[0])
-
-        if cls in vehicle_classes:
-
-            total += 1
-
+            cls = int(box.cls[0])
             x1, y1, x2, y2 = map(int, box.xyxy[0])
 
-            cv2.rectangle(img, (x1, y1), (x2, y2), (0,255,0), 2)
+            # Vehicle classes in YOLO
+            if cls in [2, 3, 5, 7]:  # car, bike, bus, truck
 
-    return img, total
+                vehicle_count += 1
+
+                # Draw bounding box
+                cv2.rectangle(image, (x1, y1), (x2, y2), (0,255,0), 2)
+
+                # Label
+                cv2.putText(
+                    image,
+                    "Vehicle",
+                    (x1, y1-5),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5,
+                    (0,255,0),
+                    2
+                )
+
+    return image, vehicle_count
